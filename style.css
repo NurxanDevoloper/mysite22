@@ -1,0 +1,466 @@
+html {
+  scroll-behavior: smooth;
+}
+
+
+
+:root{
+  --bg-1: #070816;
+  --bg-2: #081230;
+  --accent: #e63946; /* red as in your original */
+  --accent-2: #3b82f6;
+  --muted: rgba(255,255,255,0.7);
+}
+
+/* base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+  background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
+  color:#e6eef8;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+}
+
+/* particle canvas */
+#particle-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* page wrap above canvas */
+.page-wrap{position:relative;z-index:1}
+
+/* top banner */
+.top-banner{
+  background: linear-gradient(90deg,var(--accent),#ff7a7a);
+  color:white;text-align:center;padding:0.6rem 0;font-weight:600;font-size:0.95rem;
+}
+
+/* navbar */
+.navbar{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  backdrop-filter: blur(8px) saturate(120%);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  padding:0.6rem 0;
+}
+.navbar-brand{font-weight:800;color:var(--accent);letter-spacing:0.6px}
+.nav-link{color:var(--muted);font-weight:600}
+.nav-link:hover{color:white}
+.right-controls{display:flex;align-items:center;gap:10px}
+.search-input{width:220px;border-radius:999px;padding:8px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+/* hero */
+.hero{min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:70px 20px}
+.hero-card{max-width:1100px;width:100%;background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border-radius:18px;padding:36px;display:flex;gap:30px;align-items:center;box-shadow:0 10px 40px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+.hero-pretitle{color:var(--accent);font-weight:800;letter-spacing:1px;margin:0 0 8px}
+.hero h1{font-size:clamp(28px,5vw,48px);margin:0 0 10px;font-weight:800;color:#fff}
+.lead{color:rgba(230,238,248,0.85)}
+.accent{color:var(--accent)}
+
+/* hero product */
+.hero-product{width:320px;height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;border-radius:14px;padding:18px}
+.hero-product img{max-width:70%;border-radius:8px}
+.hero-product-title{font-weight:700;margin-top:10px}
+.hero-product-sub{font-size:13px;color:rgba(230,238,248,0.7)}
+
+/* buttons */
+.btn-smooth{background: linear-gradient(90deg,var(--accent),var(--accent-2));border:none;padding:10px 26px;border-radius:999px;font-weight:700;color:white;box-shadow:0 8px 30px rgba(59,130,246,0.12);transition:transform .22s,box-shadow .22s}
+.btn-smooth:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 18px 45px rgba(59,130,246,0.18)}
+.btn-outline-light{border:1px solid rgba(255,255,255,0.12)}
+
+/* glass cards */
+.card-glass{background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;border:1px solid rgba(255,255,255,0.03);padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.5);transition:transform .28s}
+.card-glass:hover{transform:translateY(-6px);box-shadow:0 22px 60px rgba(2,6,23,0.5)}
+
+/* carousel images */
+.carousel-image{max-height:420px;object-fit:contain;border-radius:12px}
+
+/* section title / explore */
+.section-bar{width:13px;height:27px;background:var(--accent);border-radius:3px}
+.section-label{font-weight:700;color:var(--accent);margin-left:8px}
+.section-title{margin-top:6px;font-weight:800;font-size:2rem;color:#111;color:#f1f5f9;color: #f8fafc;}
+
+/* ===== EXPLORE PRODUCTS — PREMIUM ===== */
+
+.explore-row {
+  margin-top: 30px;
+}
+
+.product-card {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.06),
+    rgba(255,255,255,0.02)
+  );
+  color: #fff;
+  border-radius: 20px;
+  padding: 28px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(14px);
+  transition: 
+    transform .35s cubic-bezier(.4,0,.2,1),
+    box-shadow .35s,
+    border .35s;
+  box-shadow: 0 25px 60px rgba(0,0,0,.35);
+  overflow: hidden;
+}
+
+/* glow line */
+.product-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px circle at var(--x,50%) var(--y,50%),
+    rgba(59,130,246,0.18),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity .35s;
+}
+
+.product-card:hover::before {
+  opacity: 1;
+}
+
+.product-card:hover {
+  transform: translateY(-14px) scale(1.03);
+  box-shadow: 0 50px 120px rgba(0,0,0,.55);
+  border-color: rgba(59,130,246,0.4);
+}
+
+/* ===== HERO PRODUCT — UPDATED SIZE ===== */
+
+.hero-product {
+  width: 420px;
+  height: 380px; /* Немного увеличил высоту контейнера */
+  padding: 10px; /* Уменьшил внутренние отступы, чтобы картинке было просторнее */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-product img {
+  /* Изменяй эти значения, чтобы настроить размер */
+  width: 110%;           /* Картинка может выходить чуть за края для эффекта объема */
+  max-height: 320px;     /* Основной рычаг размера — увеличивай это число */
+  
+  height: auto;
+  object-fit: contain;
+  transition: transform .45s cubic-bezier(.4,0,.2,1), filter .45s;
+  filter: drop-shadow(0 30px 70px rgba(0,0,0,0.65));
+}
+
+/* Эффект при наведении */
+.hero-product:hover img {
+  transform: translateY(-15px) scale(1.08); /* Чуть сильнее масштаб при наведении */
+  filter: drop-shadow(0 45px 90px rgba(0,0,0,0.85));
+}
+
+/* text */
+.product-title {
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.product-desc {
+  font-size: 14px;
+  color: rgba(230,238,248,.75);
+  margin-bottom: 18px;
+}
+
+/* button */
+.btn-shop {
+  align-self: flex-start;
+  background: linear-gradient(135deg,var(--accent),var(--accent-2));
+  border: none;
+  padding: 10px 26px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: white;
+  box-shadow: 0 12px 30px rgba(59,130,246,.35);
+  transition: transform .25s, box-shadow .25s;
+}
+
+.btn-shop:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 60px rgba(59,130,246,.5);
+}
+
+
+
+
+/* Улучшение карточек товаров */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Все карточки одной высоты */
+}
+
+.product-image-wrap {
+  height: 180px; /* Фиксированная зона для фото */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.product-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Картинка не обрезается */
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+}
+
+.product-desc {
+  flex-grow: 1; /* Занимает всё свободное место, толкая кнопку вниз */
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.btn-shop {
+  width: 100%; /* Кнопка на всю ширину смотрится более современно */
+  margin-top: auto; /* Прижимает кнопку к нижнему краю */
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ===== SHOP COLLECTION — LUXURY ===== */
+
+.shop-collection .shop-card {
+  position: relative;
+  border-radius: 24px;
+  padding: 32px;
+  overflow: hidden;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.08),
+    rgba(255,255,255,0.02)
+  );
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 30px 80px rgba(0,0,0,.45);
+  transition: transform .4s cubic-bezier(.4,0,.2,1),
+              box-shadow .4s;
+}
+
+.shop-collection .shop-card:hover {
+  transform: translateY(-14px) scale(1.02);
+  box-shadow: 0 60px 140px rgba(0,0,0,.65);
+}
+
+/* images */
+.shop-collection .shop-card img {
+  position: absolute;
+  right: -10%;
+  bottom: -5%;
+  max-width: 65%;
+  transition: transform .5s cubic-bezier(.4,0,.2,1);
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,.6));
+}
+
+.shop-collection .shop-card:hover img {
+  transform: translateY(-12px) scale(1.08);
+}
+
+/* sizes */
+.shop-collection .shop-card.big {
+  min-height: 480px;
+}
+
+.shop-collection .shop-card.small {
+  min-height: 230px;
+}
+
+/* text */
+.shop-text {
+  position: relative;
+  z-index: 2;
+}
+
+.shop-text h3,
+.shop-text h4 {
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.shop-text a {
+  font-size: 14px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.shop-text a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+/* Layout containers for the cards */
+.shop-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+  border-radius: 24px;
+  overflow: hidden;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Big Card Adjustments */
+.big-card-layout {
+  min-height: 500px;
+}
+
+.big-card-layout .shop-img-wrap {
+  width: 60%; /* Occupies more width for the main bag */
+  height: 100%;
+}
+
+.big-card-layout img {
+  width: 110%; /* Slightly overflows for a premium look */
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.7));
+}
+
+/* Small Card Adjustments */
+.small-card-layout {
+  min-height: 240px;
+}
+
+.small-card-layout .shop-img-wrap {
+  width: 45%;
+  height: 100%;
+}
+
+.small-card-layout img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.6));
+}
+
+/* Hover Effect for all cards */
+.shop-card:hover img {
+  transform: scale(1.08) translateY(-5px);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure text stays on the left */
+.shop-text {
+  z-index: 2;
+  flex: 1;
+}
+
+.shop-img-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:root{
+  --bg-1: #05060f;
+  --bg-2: #0b1025;
+  --accent: #3b82f6;      /* Apple / iOS blue */
+  --accent-2: #60a5fa;
+  --glass: rgba(255,255,255,0.04);
+}
+
+
+
+
+
+.btn-smooth{
+  background: linear-gradient(135deg,var(--accent),var(--accent-2));
+  border: none;
+  padding: 12px 30px;
+  border-radius: 999px;
+  font-weight: 700;
+  color: white;
+  transition: 
+    transform .25s cubic-bezier(.4,0,.2,1),
+    box-shadow .25s;
+  box-shadow: 0 10px 30px rgba(59,130,246,.25);
+}
+
+.btn-smooth:hover{
+  transform: translateY(-6px) scale(1.04);
+  box-shadow: 0 25px 60px rgba(59,130,246,.35);
+}
+
+
+
+
+
+
+
+
+/* ===== HERO PRODUCT — WIDE IMAGE ===== */
+
+.hero-product{
+  width: 420px;          /* карточка шире */
+  height: 360px;
+  padding: 20px;
+  align-items: center;
+}
+
+.hero-product img{
+  width: 100%;           /* 👈 ВАЖНО: на всю ширину */
+  max-width: none;       /* убираем лимит */
+  height: auto;
+  object-fit: contain;
+  transition: 
+    transform .45s cubic-bezier(.4,0,.2,1),
+    filter .45s;
+  filter: drop-shadow(0 30px 70px rgba(0,0,0,.65));
+}
+
+/* hover */
+.hero-product:hover img{
+  transform: translateY(-10px) scale(1.05);
+  filter: drop-shadow(0 45px 90px rgba(0,0,0,.85));
+}
