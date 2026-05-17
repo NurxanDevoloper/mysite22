@@ -45,8 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // ===============================
 // Promotion Countdown Timer
 // ===============================
-const promoEndDate = new Date(2026, 2, 1, 0, 0, 0); // 1 March 2026
-
+const promoEndDate = new Date(2026, 8, 1, 0, 0, 0); // 1 September 2026
 function updateCountdown() {
     const now = new Date();
     const diff = promoEndDate - now;
